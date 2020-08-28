@@ -47,7 +47,7 @@ namespace markdown
 
         public static Element text(string tag, string text)
         {
-            return new Element(tag, new List<Node>() {new Text(text)});
+            return new Element(tag, new List<Node>() {new TextNode(text)});
         }
 
         public bool isEmpty
@@ -78,11 +78,11 @@ namespace markdown
     }
 
 
-    public class Text : Node
+    public class TextNode : Node
     {
         public string text;
 
-        public Text(string text)
+        public TextNode(string text)
         {
             this.text = text;
         }
@@ -123,7 +123,7 @@ namespace markdown
     /// Renderers or other AST transformers should implement this.
     public abstract class NodeVisitor
     {
-        public abstract void visitText(Text txt);
+        public abstract void visitText(TextNode txt);
         public abstract bool visitElementBefore(Element element);
         public abstract void visitElementAfter(Element element);
     }

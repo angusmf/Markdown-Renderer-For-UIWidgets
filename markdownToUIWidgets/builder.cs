@@ -152,7 +152,7 @@ namespace markdownRender
                 return _blocks.Single().children;
             }
 
-            public override void visitText(markdown.Text text)
+            public override void visitText(markdown.TextNode text)
             {
                 if (_blocks.last().tag == null) return; // Don't allow text directly under the root.
 
