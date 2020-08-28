@@ -155,14 +155,14 @@ namespace markdown
             var nodes = _stack.last().children;
 
             // If the previous node is text too, just append.
-            if (nodes.isNotEmpty() && nodes.last() is Text)
+            if (nodes.isNotEmpty() && nodes.last() is TextNode)
             {
-                var textNode = nodes.last() as Text;
-                nodes[nodes.Count - 1] = new Text(textNode.text + text);
+                var textNode = nodes.last() as TextNode;
+                nodes[nodes.Count - 1] = new TextNode(textNode.text + text);
             }
             else
             {
-                nodes.Add(new Text(text));
+                nodes.Add(new TextNode(text));
             }
         }
 
@@ -280,7 +280,7 @@ namespace markdown
             }
 
             // Insert the substitution.
-            parser.addNode(new Text(substitute));
+            parser.addNode(new TextNode(substitute));
             return true;
         }
     }
@@ -295,7 +295,7 @@ namespace markdown
         internal override bool onMatch(InlineParser parser, Match match)
         {
 // Insert the substitution.
-            parser.addNode(new Text(match.Groups[0].Value[1].ToString()));
+            parser.addNode(new TextNode(match.Groups[0].Value[1].ToString()));
             return true;
         }
     }
@@ -1336,7 +1336,7 @@ namespace markdown
                 return false;
             }
 
-            parser.addNode(new Text(emoji));
+            parser.addNode(new TextNode(emoji));
 
             return true;
         }

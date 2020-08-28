@@ -604,7 +604,7 @@ namespace markdown
                 parser.advance();
             }
 
-            return new Text(childLines.join("\n"));
+            return new TextNode(childLines.join("\n"));
         }
     }
 
@@ -664,7 +664,7 @@ namespace markdown
             }
 
             parser.advance();
-            return new Text(childLines.join("\n"));
+            return new TextNode(childLines.join("\n"));
         }
     }
 
@@ -1111,7 +1111,7 @@ namespace markdown
             if (paragraphLines == null)
             {
                 // Paragraph consisted solely of reference link definitions.
-                return new Text("");
+                return new TextNode("");
             }
             else
             {
