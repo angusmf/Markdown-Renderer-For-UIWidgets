@@ -303,7 +303,7 @@ namespace markdownRender
                 if (parts.isEmpty()) return SizedBox.expand();
 
                 string path = parts.first();
-                float width = 0, height = 0;
+                float? width = null, height = null;
                 if (parts.Length == 2)
                 {
                     var dimensions = parts.last().Split('x');
@@ -314,27 +314,33 @@ namespace markdownRender
                     }
                 }
 
-                Uri uri = new Uri(path);
-                Widget child;
-                if (uri.Scheme == "http" || uri.Scheme == "https")
+                Uri uri;
+                Widget child = null;
+                if (Uri.TryCreate(src, UriKind.RelativeOrAbsolute, out uri) && uri.IsAbsoluteUri)
                 {
-                    child = Image.network(uri.ToString(), null, 1);
-                }
-                else if (uri.Scheme == "data")
-                {
-                    child = _handleDataSchemeUri(uri, width, height);
-                }
-                else if (uri.Scheme == "resource")
-                {
-                    //TODO:
-                    child = Image.asset(path.Substring(9), null, null, width, height);
+                    if (uri.Scheme == "http" || uri.Scheme == "https")
+                    {
+                        child = Image.network(src: uri.ToString(), scale: 1, width: width, height: height);
+                    }
+                    else if (uri.Scheme == "data")
+                    {
+                        child = _handleDataSchemeUri(uri, width, height);
+                    }
+                    else if (uri.Scheme == "resource")
+                    {
+                        child = Image.asset(path.Substring(9), scale: 1, width: width, height: height);
+                    }
+                    else if (uri.Scheme == "file")
+                    {
+                        child = Image.file(file: uri.ToString(), scale: 1, width: width, height: height);
+                    }
                 }
                 else
                 {
                     string filePath = imageDirectory == null
                         ? uri.ToString()
                         : System.IO.Path.Combine(imageDirectory, uri.ToString());
-                    child = Image.file(filePath, null, 1, width, height);
+                    child = Image.file(file: filePath, scale: 1, width: width, height: height);
                 }
 
                 if (_linkHandlers.isNotEmpty())
@@ -348,7 +354,7 @@ namespace markdownRender
                 }
             }
 
-            Widget _handleDataSchemeUri(Uri uri, float widht, float height)
+            Widget _handleDataSchemeUri(Uri uri, float? width, float? height)
             {
                 //TODO:
                 return SizedBox.expand();
