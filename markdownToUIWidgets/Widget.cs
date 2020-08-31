@@ -119,14 +119,11 @@ namespace markdown
 
         public override void dispose()
         {
-            Debug.Log("disposed!!!!");
             _disposeRecongnizer();
             base.dispose();
 
             if (buildThread != null && buildThread.ThreadState == ThreadState.Running)
             {
-                Debug.Log("disposed!!!!");
-                
                 buildThread.Abort();
                 buildThread = null;
             }
@@ -157,6 +154,8 @@ namespace markdown
                 buildThread.Abort();
             }
 
+            if (!UnityEngine.Application.isPlaying) return;
+
             buildThread = new Thread(() =>
             {
                 try
@@ -183,7 +182,6 @@ namespace markdown
                     
                     
                     sw.Stop();
-                    Debug.Log(sw.ElapsedMilliseconds / 1000f);
                 }
                 catch (ThreadAbortException e)
                 {
@@ -199,7 +197,6 @@ namespace markdown
         {
             using (WindowProvider.of(context).getScope())
             {
-                Debug.Log("====>" + elements.Count + "  " + _children.Count);
                 this.setState((() => { _children = elements; }));
             }
         }
