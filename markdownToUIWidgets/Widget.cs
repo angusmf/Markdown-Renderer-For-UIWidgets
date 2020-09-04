@@ -132,13 +132,13 @@ namespace markdown
         void _parseMarkdown()
         {
             updateState(new List<Widget>());
-            MarkdownStyleSheet styleSheet = widget.styleSheet ?? MarkdownStyleSheet.fromTheme(new ThemeData(brightness: Brightness.light,fontFamily:"Avenir"));
+            widget.styleSheet = widget.styleSheet ?? MarkdownStyleSheet.fromTheme(new ThemeData(brightness: Brightness.light, fontFamily: "Avenir")); 
             _disposeRecongnizer();
 
             // TODO: This can be optimized by doing the split and removing \r at the same time
             string[] lines = widget.data.Replace("\r\n", "\n").Split('\n');
             markdown.Document document = new Document();
-            builder.MarkdownBuilder builder = new builder.MarkdownBuilder(this, styleSheet, widget.imageDirectory);
+            builder.MarkdownBuilder builder = new builder.MarkdownBuilder(this, widget.styleSheet, widget.imageDirectory);
 
             List<Node> nodes = null;
 //            if (widget.getCachedParsed != null)

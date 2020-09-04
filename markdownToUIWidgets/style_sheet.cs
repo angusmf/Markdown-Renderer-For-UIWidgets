@@ -108,16 +108,24 @@ namespace markdown
         /// Creates a [MarkdownStyleSheet] from the [TextStyle]s in the provided [ThemeData].
         public static MarkdownStyleSheet fromTheme(ThemeData theme)
         {
+            // https://api.flutter.dev/flutter/material/TextTheme/title.html
+            //display4 = h1
+            //display3 = h2
+            //display2 = h3
+            //display1 = h4
+            //headline = h5
+            //title = h6
+
             return new MarkdownStyleSheet(
                 new TextStyle(true, Colors.blue),
                 theme.textTheme.body1,
                 new TextStyle(true, Colors.grey.shade700, fontSize: theme.textTheme.body1.fontSize * .85f, fontFamily: "monospace"),
+                theme.textTheme.display4,
+                theme.textTheme.display3,
+                theme.textTheme.display2,
+                theme.textTheme.display1,
                 theme.textTheme.headline,
                 theme.textTheme.title,
-                theme.textTheme.subhead,
-                theme.textTheme.body2,
-                theme.textTheme.body2,
-                theme.textTheme.body2,
                 new TextStyle(true, fontStyle: FontStyle.italic),
                 new TextStyle(true, fontWeight: FontWeight.bold),
                 theme.textTheme.body1,
