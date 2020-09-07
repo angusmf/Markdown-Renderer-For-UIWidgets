@@ -155,7 +155,16 @@ namespace markdown
             }
 
             if (!UnityEngine.Application.isPlaying) return;
+#if UNITY_WEBGL
+            if (nodes == null)
+            {
+                nodes = document.parseLines(lines.ToList());
+            }
 
+            widget.onParsed?.Invoke(widget.id, nodes);
+
+            updateState(builder.build(nodes));
+#else
             buildThread = new Thread(() =>
             {
                 try
@@ -191,6 +200,7 @@ namespace markdown
              
             
             buildThread.Start();
+#endif
         }
 
         private void updateState(List<Widget> elements)
