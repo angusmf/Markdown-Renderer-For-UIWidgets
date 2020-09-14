@@ -337,10 +337,22 @@ namespace markdownRender
                 }
                 else
                 {
-                    string filePath = imageDirectory == null
-                        ? uri.ToString()
-                        : System.IO.Path.Combine(imageDirectory, uri.ToString());
-                    child = Image.file(file: filePath, scale: 1, width: width, height: height);
+                    if (!string.IsNullOrEmpty(imageDirectory))
+                    {
+                        if (imageDirectory.StartsWith("http"))
+                        {
+                            uri = new Uri(new Uri(imageDirectory), uri);
+                            child = Image.network(src: uri.ToString(), scale: 1, width: width, height: height);
+                        }
+                        else
+                        {
+                            child = Image.file(file: System.IO.Path.Combine(imageDirectory, uri.ToString()), scale: 1, width: width, height: height);
+                        }
+                    }
+                    else
+                    {
+                        child = Image.file(file: uri.ToString(), scale: 1, width: width, height: height);
+                    }
                 }
 
                 if (_linkHandlers.isNotEmpty())
